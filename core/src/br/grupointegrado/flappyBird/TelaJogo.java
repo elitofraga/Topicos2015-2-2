@@ -52,10 +52,19 @@ public class TelaJogo extends TelaBase {
         Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        capturarTeclas();
         atualizar(delta);
         reenderizar(delta);
         debug.render(mundo, camera.combined.cpy().scl(Util.PIXEL_METRO));
 
+    }
+
+    private boolean pulando = false;
+    private void capturarTeclas() {
+        pulando = false;
+        if (Gdx.input.justTouched()) {
+            pulando = true;
+        }
     }
 
     // desenhar as imagens
@@ -67,8 +76,18 @@ public class TelaJogo extends TelaBase {
     //atualizar calculos dos corpos
 
     private void atualizar(float delta) {
+        passaro.atualizar(delta);
         mundo.step(1f / 60f, 6, 2);
+        atualizarCamera();
         atualizarChao();
+        if (pulando) {
+            passaro.pular();
+        }
+    }
+
+    private void atualizarCamera() {
+        camera.position.x = (passaro.getCorpo().getPosition().x + 34 / Util.PIXEL_METRO)* Util.PIXEL_METRO;
+        camera.update();
     }
 
     private void atualizarChao() {
