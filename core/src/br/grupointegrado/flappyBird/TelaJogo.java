@@ -36,6 +36,7 @@ public class TelaJogo extends TelaBase {
 
         initChao();
         initPassaro();
+        new Obstaculo(mundo, camera, null);
 
     }
 
@@ -49,7 +50,7 @@ public class TelaJogo extends TelaBase {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         capturarTeclas();
@@ -91,10 +92,8 @@ public class TelaJogo extends TelaBase {
     }
 
     private void atualizarChao() {
-        float largura = camera.viewportWidth / Util.PIXEL_METRO;
-        Vector2 posicao = chao.getPosition();
-        posicao.x = largura / 2;
-        chao.setTransform(posicao, 0);
+        Vector2 posicao = passaro.getCorpo().getPosition();
+        chao.setTransform(posicao.x, 0, 0);
     }
 
     @Override
